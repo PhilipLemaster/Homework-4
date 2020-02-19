@@ -3,9 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coding Quiz</title>
+    <title>Javascript Quiz</title>
+    <link rel="stylesheet" type= 'text/css' href="style.css">
     </head>
 <body>
-    <script type="text/javascript" src="quiz.js"></script>
+    <div id="quiz">
+        <div id="question-container" class="hide">
+          <div id="question">Question</div>
+          <div id="answers" class="btn-grid">
+            <button class="btn" id="a1"></button>
+            <button class="btn" id="a2"></button>
+            <button class="btn" id="a3"></button>
+            <button class="btn" id="a4"></button>
+          </div>
+        </div>
+        <div class="controls">
+          <button id="start-btn" class="start-btn btn">Start</button>
+          <button id="next-btn" class="next-btn btn hide">Next</button>
+        </div>
+      </div>
+      <script type="text/javascript" src="quiz.js"></script>
 </body>
 </html>

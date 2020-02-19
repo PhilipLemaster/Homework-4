@@ -1,73 +1,144 @@
-// Variables/ Created dynamic elements
+// Variables for Quiz
 
-var start = document.createElement('button');
-var body = document.querySelector('body');
-var title = document.createElement('h1');
-var qcontainer = document.createElement('div');
-var qhead = document.createElement('p');
-var choices = document.createElement('div');
-var qa1 = document.createElement('button');
-var qa2 = document.createElement('button');
-var qa3 = document.createElement('button');
-var qa4 = document.createElement('button');
-var insthead = document.createElement('h3');
-var inst = document.createElement('p');
-var brk = document.createElement('br');
+const startButton = document.getElementById('start-btn')
+const nextButton = document.getElementById('next-btn')
+const questionContainerElement = document.getElementById('question-container')
+const questionElement = document.getElementById('question')
+const answers = document.getElementById('answers')
 
-// Text content assigned to variables
-title.textContent = 'Javascript Quiz';
-insthead.textContent = 'Instructions';
-inst.textContent = 'I will put the instructions here later.';
+let shuffledQuestions, currentQuestionIndex
 
-// Append content to HTML page
+var body = document.querySelector('body')
+var quiz = document.getElementById('quiz')
 
-body.appendChild(title);
-body.appendChild(qcontainer);
-qcontainer.appendChild(qhead);
-qcontainer.appendChild(choices);
-choices.appendChild(qa1);
-choices.appendChild(qa2);
-choices.appendChild(qa3);
-choices.appendChild(qa4);
+// STYLING
 
-// Stylize content to look presentable
+body.style.padding = '0';
+body.style.margin = '0';
+body.style.display = 'flex';
+body.style.width = '100vw';
+body.style.height = '100vh';
+body.style.justifyContent = 'center';
+body.style.alignItems = 'center';
+body.style.backgroundImage = 'url("assets/image.jpg")'
 
-qhead.style.height = '50px';
-
-qcontainer.style.backgroundColor = 'lightgreen';
-qcontainer.style.height = '375px';
-qcontainer.style.width = '650px';
-qcontainer.style.margin = 'auto';
-qcontainer.style.border = '5px solid black';
-qcontainer.style.boxShadow = '10px black';
-
-title.style.textAlign = 'center';
-title.style.fontFamily = 'sans-serif';
-
-qa1.style.backgroundColor = 'lightblue';
-qa1.style.width = '250px';
-qa1.style.border = '4px solid black';
-qa1.style.margin = '40px';
-qa1.style.fontSize = '20px';
-
-qa2.style.backgroundColor = 'lightblue';
-qa2.style.width = '250px';
-qa2.style.border = '4px solid black';
-qa2.style.margin = '30px';
-qa2.style.fontSize = '20px';
-
-qa3.style.backgroundColor = 'lightblue';
-qa3.style.width = '250px';
-qa3.style.border = '4px solid black';
-qa3.style.margin = '40px';
-qa3.style.fontSize = '20px';
-
-qa4.style.backgroundColor = 'lightblue';
-qa4.style.width = '250px';
-qa4.style.border = '4px solid black';
-qa4.style.margin = '30px';
-qa4.style.fontSize = '20px';
+quiz.style.width = '800px';
+quiz.style.maxWidth = '700%';
+quiz.style.backgroundColor = 'lightblue'
+quiz.style.borderWidth = '5px';
+quiz.style.padding = '15px';
+quiz.style.boxShadow = '5px 10px 10px 0';
 
 
+// QUIZ FUNCTIONALITY
 
+// Start of quiz
 
+startButton.addEventListener('click', startGame)
+nextButton.addEventListener('click', () => {
+  currentQuestionIndex++
+  setNextQuestion()
+})
+
+function startGame() {
+  startButton.classList.add('hide')
+  shuffledQuestions = questions.sort(() => Math.random() - .5)
+  currentQuestionIndex = 0
+  questionContainerElement.classList.remove('hide')
+  setNextQuestion()
+}
+
+// Question cycle function
+
+function setNextQuestion() {
+  resetState()
+  display(shuffledQuestions[currentQuestionIndex])
+}
+
+// Question display function
+
+function display(question) {
+  questionElement.innerText = question.question
+  question.answers.forEach(answer => {
+    const button = document.createElement('button')
+    button.innerText = answer.text
+    button.classList.add('btn')
+    if (answer.correct) {
+      button.dataset.correct = answer.correct
+    }
+    button.addEventListener('click', selectAnswer)
+    answers.appendChild(button)
+  })
+}
+
+function resetState() {
+  clearStatusClass(document.body)
+  nextButton.classList.add('hide')
+  while (answers.firstChild) {
+    answers.removeChild(answers.firstChild)
+  }
+}
+
+function selectAnswer(e) {
+  const selectedButton = e.target
+  const correct = selectedButton.dataset.correct
+  setStatusClass(document.body, correct)
+  Array.from(answers.children).forEach(button => {
+    setStatusClass(button, button.dataset.correct)
+  })
+  if (shuffledQuestions.length > currentQuestionIndex + 1) {
+    nextButton.classList.remove('hide')
+  } else {
+    startButton.innerText = 'Restart'
+    startButton.classList.remove('hide')
+  }
+}
+
+function setStatusClass(element, correct) {
+  clearStatusClass(element)
+  if (correct) {
+    element.classList.add('correct')
+  } else {
+    element.classList.add('wrong')
+  }
+}
+
+function clearStatusClass(element) {
+  element.classList.remove('correct')
+  element.classList.remove('wrong')
+}
+
+const questions = [
+  {
+    question: 'What is 2 + 2?',
+    answers: [
+      { text: '4', correct: true },
+      { text: '22', correct: false }
+    ]
+  },
+  {
+    question: 'Who is the best YouTuber?',
+    answers: [
+      { text: 'Web Dev Simplified', correct: true },
+      { text: 'Traversy Media', correct: true },
+      { text: 'Dev Ed', correct: true },
+      { text: 'Fun Fun Function', correct: true }
+    ]
+  },
+  {
+    question: 'Is web development fun?',
+    answers: [
+      { text: 'Kinda', correct: false },
+      { text: 'YES!!!', correct: true },
+      { text: 'Um no', correct: false },
+      { text: 'IDK', correct: false }
+    ]
+  },
+  {
+    question: 'What is 4 * 2?',
+    answers: [
+      { text: '6', correct: false },
+      { text: '8', correct: true }
+    ]
+  }
+]
