@@ -196,7 +196,6 @@ function setStatusClass(element, correct) {
     element.classList.add('correct')
   } else {
     element.classList.add('wrong')
-    scoreMaker();
   }
 }
 function clearStatusClass(element) {
@@ -206,7 +205,9 @@ function clearStatusClass(element) {
 
 var scoreboard = document.createElement('div');
 body.appendChild(scoreboard);
-
+var scorehead = document.createElement('h2')
+scoreboard.appendChild(scorehead)
+scorehead.textContent = 'SCORES';
 
 function gameOver() {
  timer.style.visibility = 'hidden'
