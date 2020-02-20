@@ -1,5 +1,4 @@
 // Variables for Quiz
-let score = 0
 
 const startButton = document.getElementById('start-btn')
 const nextButton = document.getElementById('next-btn')
@@ -13,6 +12,20 @@ var body = document.querySelector('body')
 var quiz = document.getElementById('quiz')
 var replayButton = document.createElement('button')
 
+// Scorekeeper
+
+let score = 0
+
+var scorekeeper = document.createElement('div')
+body.appendChild(scorekeeper)
+scorekeeper.textContent = ('Score: ' + score)
+
+scorekeeper.style.position = 'sticky';
+scorekeeper.style.top = '600px';
+scorekeeper.style.right = '1200px'
+scorekeeper.style.color = 'white';
+scorekeeper.style.textAlign = 'center';
+scorekeeper.style.fontSize = '40px';
 
 // STYLING
 
@@ -66,35 +79,47 @@ function setTime() {
 
 const questions = [
   {
-    question: 'What is 2 + 2?',
+    question: 'Inside which HTML element do we put the JavaScript?',
     answers: [
-      { text: '4', correct: true },
-      { text: '22', correct: false }
+      { text: '<script>', correct: true },
+      { text: '<javascript>', correct: false },
+      { text: '<js>', correct: false },
+      { text: '<scripting>', correct: false }
     ]
   },
   {
-    question: 'Who is the best YouTuber?',
+    question: 'What is the correct JavaScript syntax to write "Hello World"?',
     answers: [
-      { text: 'Web Dev Simplified', correct: true },
-      { text: 'Traversy Media', correct: true },
-      { text: 'Dev Ed', correct: true },
-      { text: 'Fun Fun Function', correct: true }
+      { text: 'response.write("Hello World")', correct: false },
+      { text: 'document.write("Hello World")', correct: true },
+      { text: '"Hello World"', correct: false },
+      { text: 'print("Hello World")', correct: false }
     ]
   },
   {
-    question: 'Is web development fun?',
+    question: 'Where is the correct place to insert a JavaScript?',
     answers: [
-      { text: 'Kinda', correct: false },
-      { text: 'YES!!!', correct: true },
-      { text: 'Um no', correct: false },
-      { text: 'IDK', correct: false }
+      { text: 'The <body> section', correct: false },
+      { text: 'The <head> section', correct: false },
+      { text: 'Both the <head> section and the <body> section are correct', correct: true },
     ]
   },
   {
-    question: 'What is 4 * 2?',
+    question: 'What is the correct syntax for referring to an external script called "xxx.js"?',
     answers: [
-      { text: '6', correct: false },
-      { text: '8', correct: true }
+      { text: '<script src="xxx.js">', correct: true },
+      { text: '<script name="xxx.js">', correct: false },
+      { text: '<script href="xxx.js">', correct: false },
+      { text: '<script value="xxx.js">', correct: false }
+    ]
+  },
+  {
+    question: 'How do you create a function?',
+    answers: [
+      { text: 'function:myFunction()', correct: false },
+      { text: 'function=myFunction()', correct: false },
+      { text: 'function myFunction()', correct: true },
+      { text: 'myFunction():function', correct: false }
     ]
   }
 ]
@@ -140,7 +165,6 @@ function display(question) {
     button.addEventListener('click', selectAnswer)
     answers.appendChild(button)
   })
-
 }
 
 function resetState() {
@@ -172,9 +196,9 @@ function setStatusClass(element, correct) {
     element.classList.add('correct')
   } else {
     element.classList.add('wrong')
+    scoreMaker();
   }
 }
-
 function clearStatusClass(element) {
   element.classList.remove('correct')
   element.classList.remove('wrong')
@@ -183,12 +207,17 @@ function clearStatusClass(element) {
 var scoreboard = document.createElement('div');
 body.appendChild(scoreboard);
 
+
 function gameOver() {
  timer.style.visibility = 'hidden'
  scoreboard.style.display = 'block'
  replayButton.style.display = 'visible'
  quiz.style.display = 'none'
 }
+
+
+
+
 
 // Scoreboard layout and styling
 
@@ -200,16 +229,6 @@ scoreboard.style.borderWidth = '5px';
 scoreboard.style.padding = '15px';
 scoreboard.style.boxShadow = '5px 10px 10px 0';
 
-var scorekeeper = document.createElement('div')
-body.appendChild(scorekeeper)
-scorekeeper.textContent = ('Score: ' + score)
-
-scorekeeper.style.position = 'sticky';
-scorekeeper.style.top = '600px';
-scorekeeper.style.right = '1200px'
-scorekeeper.style.color = 'white';
-scorekeeper.style.textAlign = 'center';
-scorekeeper.style.fontSize = '40px';
 
 // Styling for timer
 
